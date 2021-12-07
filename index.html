@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>習近平の野望 ver1.00</title>
+<title>習近平の野望 ver1.10</title>
 </head>
 <body>
 
@@ -23,6 +23,8 @@ KokkaSousu = 42;
 AreaSousu = 66;
 SeaAreaSousu = 1013;
 DipPoint = 10;
+Scenario = 0;
+TairituNation = 42;
 
 <!--【国家データ】-->
 
@@ -365,7 +367,7 @@ function SaisyuuScore() {
 function CommandSelect() {
 	Sousuu = 0;
 	for (HenA=1;HenA<=KokkaSousu;HenA++) {
-		if (HenA!=42 && HenA!=1) {
+		if (HenA!=TairituNation && HenA!=1) {
 			HenB = Math.floor(Math.abs(NationSumInf[HenA])/30);
 			if (HenB==4) { HenC=0; }
 			if (HenB==3) { HenC=Math.sqrt((NationPoint[HenA]+2)**2)*1; }
@@ -386,7 +388,7 @@ function CommandSelect() {
 		SenntakushiKariNum[HenA] = 0;
 		SenntakushiNation[HenA] = 1;
 		for (HenB=1;HenB<=KokkaSousu;HenB++) {
-			if (HenB!=42 && HenB!=1) {
+			if (HenB!=TairituNation && HenB!=1) {
 				HenC = Math.floor(Math.abs(NationSumInf[HenB])/30);
 				if (HenC==4) { HenD=0; }
 				if (HenC==3) { HenD=Math.sqrt((NationPoint[HenB]+2)**2)*1; }
@@ -504,10 +506,16 @@ function ActionJikkou(ActionNum) {
 		SumInfCal()
 		if (NationInfluence[SenntakushiNation[ActionNum]]>0) { HenA = "米国"; }
 		if (NationInfluence[SenntakushiNation[ActionNum]]==0) { HenA = "中立"; }
-		if (NationInfluence[SenntakushiNation[ActionNum]]<0) { HenA = "中国"; }
+		if (NationInfluence[SenntakushiNation[ActionNum]]<0) {
+			if (Scenario==0) { HenA = "中国"; }
+			if (Scenario==1) { HenA = "ソ連"; }
+		}
 		if (NationSumInf[SenntakushiNation[ActionNum]]>0) { HenB = "米国"; }
 		if (NationSumInf[SenntakushiNation[ActionNum]]==0) { HenB = "中立"; }
-		if (NationSumInf[SenntakushiNation[ActionNum]]<0) { HenB = "中国"; }
+		if (NationSumInf[SenntakushiNation[ActionNum]]<0) {
+			if (Scenario==0) { HenB = "中国"; }
+			if (Scenario==1) { HenB = "ソ連"; }
+		}
 		alert(SenntakushiName[ActionNum]+"により、"+"影響力が+"+SenntakushiEff[ActionNum]+"されました\n現在の影響力："+HenA+Math.abs(NationInfluence[SenntakushiNation[ActionNum]])+"　総合影響力："+HenB+Math.abs(NationSumInf[SenntakushiNation[ActionNum]])+"％");
 		Koshinn()
 	}
@@ -521,7 +529,7 @@ function AI() {
 	AIDipPoint += MiscDipPointUP+AIDipUP;
 	AISousuu = 0;
 	for (HenA=1;HenA<=KokkaSousu;HenA++) {
-		if (HenA!=42 && HenA!=1) {
+		if (HenA!=TairituNation && HenA!=1) {
 			HenB = Math.floor(Math.abs(NationSumInf[HenA])/30);
 			if (HenB==4) { HenC=0; }
 			if (HenB==3) { HenC=Math.sqrt((NationPoint[HenA]+2)**2)*1; }
@@ -542,7 +550,7 @@ function AI() {
 		SenntakushiKariNum[HenA] = 0;
 		SenntakushiNation[HenA] = 1;
 		for (HenB=1;HenB<=KokkaSousu;HenB++) {
-			if (HenB!=42 && HenB!=1) {
+			if (HenB!=TairituNation && HenB!=1) {
 				HenC = Math.floor(Math.abs(NationSumInf[HenB])/30);
 				if (HenC==4) { HenD=0; }
 				if (HenC==3) { HenD=Math.sqrt((NationPoint[HenB]+2)**2)*1; }
@@ -592,16 +600,23 @@ function AI() {
 	SumInfCal()
 	if (NationInfluence[SenntakushiNation[ActionNum]]>0) { HenA = "米国"; }
 	if (NationInfluence[SenntakushiNation[ActionNum]]==0) { HenA = "中立"; }
-	if (NationInfluence[SenntakushiNation[ActionNum]]<0) { HenA = "中国"; }
+	if (NationInfluence[SenntakushiNation[ActionNum]]<0) {
+		if (Scenario==0) { HenA = "中国"; }
+		if (Scenario==1) { HenA = "ソ連"; }
+	}
 	if (NationSumInf[SenntakushiNation[ActionNum]]>0) { HenB = "米国"; }
 	if (NationSumInf[SenntakushiNation[ActionNum]]==0) { HenB = "中立"; }
-	if (NationSumInf[SenntakushiNation[ActionNum]]<0) { HenB = "中国"; }
+	if (NationSumInf[SenntakushiNation[ActionNum]]<0) {
+		if (Scenario==0) { HenB = "中国"; }
+		if (Scenario==1) { HenB = "ソ連"; }
+	}
 	switch (PlayNation) {
 		case -1:
 			HenC = "アメリカ";
 		break;
 		case 1:
-			HenC = "中国";
+			if (Scenario==0) { HenC = "中国"; }
+			if (Scenario==1) { HenC = "ソビエト"; }
 		break;
 	}
 	alert(HenC+"の外交政策により、"+NationName[SenntakushiNation[ActionNum]]+"の影響力が-"+(MiscNannido+KokkaHosei)+"されました\n現在の影響力："+HenA+Math.abs(NationInfluence[SenntakushiNation[ActionNum]])+"　総合影響力："+HenB+Math.abs(NationSumInf[SenntakushiNation[ActionNum]])+"％");
@@ -620,9 +635,16 @@ function Area(AreaNum) {
 function Hyouji() {
 	if (Game!=0 && Game!=999) { document.For01.Text00.defaultValue ="第"+Game+"ターン　外交点："+DipPoint; }
 	if (Game==999) {
-		if (Score1>Score2) { document.For01.Text00.defaultValue ="中国が米中冷戦に勝利しました" }
-		if (Score1==Score2) { document.For01.Text00.defaultValue ="米中冷戦は引き分けとなりました" }
-		if (Score1<Score2) { document.For01.Text00.defaultValue ="アメリカが米中冷戦に勝利しました" }
+		if (Scenario=0) {
+			if (Score1>Score2) { document.For01.Text00.defaultValue ="中国が米中冷戦に勝利しました" }
+			if (Score1==Score2) { document.For01.Text00.defaultValue ="米中冷戦は引き分けとなりました" }
+			if (Score1<Score2) { document.For01.Text00.defaultValue ="アメリカが米中冷戦に勝利しました" }
+		}
+		if (Scenario=1) {
+			if (Score1>Score2) { document.For01.Text00.defaultValue ="ソビエトが米ソ冷戦に勝利しました" }
+			if (Score1==Score2) { document.For01.Text00.defaultValue ="米ソ冷戦は引き分けとなりました" }
+			if (Score1<Score2) { document.For01.Text00.defaultValue ="アメリカが米ソ冷戦に勝利しました" }
+		}
 	}
 	if (SenntakuArea<1000) { document.getElementById("選択国家").src=NationFlag[AreaData[SenntakuArea][1]]+".png"; }
 	if (SenntakuArea>=1000) { document.getElementById("選択国家").src="Umi.png"; }
@@ -631,10 +653,16 @@ function Hyouji() {
 	if (SenntakuArea<1000) {
 		if (NationInfluence[AreaData[SenntakuArea][1]]>0) { HenA = "米国"; }
 		if (NationInfluence[AreaData[SenntakuArea][1]]==0) { HenA = "中立"; }
-		if (NationInfluence[AreaData[SenntakuArea][1]]<0) { HenA = "中国"; }
+		if (NationInfluence[AreaData[SenntakuArea][1]]<0) {
+			if (Scenario==0) { HenA = "中国"; }
+			if (Scenario==1) { HenA = "ソ連"; }
+		}
 		if (NationSumInf[AreaData[SenntakuArea][1]]>0) { HenB = "米国"; }
 		if (NationSumInf[AreaData[SenntakuArea][1]]==0) { HenB = "中立"; }
-		if (NationSumInf[AreaData[SenntakuArea][1]]<0) { HenB = "中国"; }
+		if (NationSumInf[AreaData[SenntakuArea][1]]<0) {
+			if (Scenario==0) { HenB = "中国"; }
+			if (Scenario==1) { HenB = "ソ連"; }
+		}
 		switch (NationGovernment[AreaData[SenntakuArea][1]]) {
 			case 0: HenC = "民主制"; break;
 			case 1: HenC = "独裁制"; break;
@@ -644,7 +672,8 @@ function Hyouji() {
 	if (SenntakuArea>=1000) {
 		HenA = SeaAreaData[SenntakuArea][3];
 		HenB = SeaAreaData[SenntakuArea][4];
-		document.For02.Memo00.defaultValue = "重要性："+SeaAreaData[SenntakuArea][1]+"　総合影響力：中国"+HenA+" 米国"+HenB;
+		if (Scenario==0) { document.For02.Memo00.defaultValue = "重要性："+SeaAreaData[SenntakuArea][1]+"　総合影響力：中国"+HenA+" 米国"+HenB; }
+		if (Scenario==1) { document.For02.Memo00.defaultValue = "重要性："+SeaAreaData[SenntakuArea][1]+"　総合影響力：ソ連"+HenA+" 米国"+HenB; }
 	}
 	if (SenntakuArea<1000) {
 		HenA = "";
@@ -748,9 +777,16 @@ function Koshinn() {
 		document.For01.B04.value=SenntakushiName[4];
 		alert("ゲーム終了です");
 		SaisyuuScore()
-		if (Score1>Score2) { alert("中国が米中冷戦に勝利しました"); }
-		if (Score1==Score2) { alert("米中冷戦は引き分けとなりました"); }
-		if (Score1<Score2) { alert("アメリカが米中冷戦に勝利しました"); }
+		if (Scenario==0) {
+			if (Score1>Score2) { alert("中国が米中冷戦に勝利しました"); }
+			if (Score1==Score2) { alert("米中冷戦は引き分けとなりました"); }
+			if (Score1<Score2) { alert("アメリカが米中冷戦に勝利しました"); }
+		}
+		if (Scenario==1) {
+			if (Score1>Score2) { alert("ソビエトが米ソ冷戦に勝利しました"); }
+			if (Score1==Score2) { alert("米ソ冷戦は引き分けとなりました"); }
+			if (Score1<Score2) { alert("アメリカが米ソ冷戦に勝利しました"); }
+		}
 	}
 	if (Game!=999) {
 		Game++;
@@ -767,6 +803,7 @@ function Koshinn() {
 			if (HenBB==1) { break; }
 		}
 	}
+	if (Scenario==1) { ColdWarFlagChange() }
 	Hyouji()
 }
 
@@ -808,12 +845,245 @@ function Sen03() {
 	if (Game!=0 && Game!=999) {
 		ActionJikkou(3)
 	}
+	if (Game==0) {
+		PlayNation = -1;
+		KokkaHosei = 1;
+		DipUP = 1;
+		AIDipUP = 0;
+		ColdWar()
+		alert("世界を社会主義の旗のもとに統一してください！");
+		Game++;
+		CommandSelect()
+		Hyouji()
+	}
 }
 
 function Sen04() {
 	if (Game!=0 && Game!=999) {
 		ActionJikkou(4)
 	}
+	if (Game==0) {
+		PlayNation = 1;
+		KokkaHosei = 1;
+		DipUP = 1;
+		AIDipUP = 0;
+		ColdWar()
+		alert("世界を社会主義から守り抜いてください！");
+		Game++;
+		CommandSelect()
+		Hyouji()
+	}
+}
+
+<!--【冷戦シナリオ】-->
+
+function ColdWar() {
+
+	Scenario = 1;
+
+	KokkaSousu = 35;
+
+	NationData = new Array();//国名、国旗、得点、現得点、合計点、政治体制、独立性
+	NationData[ 1] = new Array("イギリス","ENG",7,3,0,0,0);
+	NationData[ 2] = new Array("フランス","FRA",6,2,0,0,1);
+	NationData[ 3] = new Array("スペイン","SPA",4,2,0,0,0);
+	NationData[ 4] = new Array("ドイツ","GER",8,0,0,0,0);
+	NationData[ 5] = new Array("イタリア","ITA",4,3,0,0,0);
+	NationData[ 6] = new Array("オーストリア","AUS",1,0,0,0,1);
+	NationData[ 7] = new Array("ポーランド","POL",3,-3,0,1,0);
+	NationData[ 8] = new Array("ハンガリー","HUN",3,-3,0,1,0);
+	NationData[ 9] = new Array("ルーマニア","ROM",2,-3,0,1,0);
+	NationData[10] = new Array("スウェーデン","SWE",2,0,0,0,1);
+	NationData[11] = new Array("フィンランド","FIN",1,-1,0,0,0);
+	NationData[12] = new Array("ソビエト社会主義共和国連邦","SOV",6,-3,0,1,0);
+	NationData[13] = new Array("トルコ","TUR",3,2,0,0,1);
+	NationData[14] = new Array("イスラエル","ISR",3,3,0,0,1);
+	NationData[15] = new Array("イラク","IRQ",3,0,0,1,1);
+	NationData[16] = new Array("サウジアラビア","SAU",6,2,0,1,1);
+	NationData[17] = new Array("イラン","PER",5,1,0,1,2);
+	NationData[18] = new Array("アフガニスタン","AFG",1,0,0,1,2);
+	NationData[19] = new Array("パキスタン","PAK",4,1,0,1,1);
+	NationData[20] = new Array("インド","IND",5,0,0,0,0);
+	NationData[21] = new Array("ミャンマー","BUR",1,-2,0,1,0);
+	NationData[22] = new Array("タイ","SIA",2,0,0,1,0);
+	NationData[23] = new Array("ベトナム","VIE2",2,2,0,1,0);
+	NationData[24] = new Array("韓国","KOR",2,3,0,1,0);
+	NationData[25] = new Array("日本","JAP",5,3,0,0,0);
+	NationData[26] = new Array("インドネシア","INO",3,0,0,0,0);
+	NationData[27] = new Array("フィリピン","FIR",1,3,0,0,0);
+	NationData[28] = new Array("オーストラリア","AST",3,3,0,0,0);
+	NationData[29] = new Array("エジプト","EGY",3,-1,0,1,0);
+	NationData[30] = new Array("リビア","LBY",2,-1,0,1,0);
+	NationData[31] = new Array("アルジェリア","ALG",2,-1,0,1,0);
+	NationData[32] = new Array("モロッコ","MOR",1,1,0,1,0);
+	NationData[33] = new Array("シンガポール","U75",3,2,0,1,0);
+	NationData[34] = new Array("モンゴル","MON",1,-3,0,1,0);
+	NationData[35] = new Array("中国","CHC",7,-2,0,1,2);
+
+	TairituNation = 12;
+
+	NationName = new Array();
+	NationFlag = new Array();
+	NationPoint = new Array();
+	NationInfluence = new Array();
+	NationSumInf = new Array();
+	NationGovernment = new Array();
+	NationIndependence = new Array();
+	for (HenA=1;HenA<=KokkaSousu;HenA++) {
+		NationName[HenA] = NationData[HenA][0];
+		NationFlag[HenA] = NationData[HenA][1];
+		NationPoint[HenA] = NationData[HenA][2];
+		NationInfluence[HenA] = NationData[HenA][3];
+		NationSumInf[HenA] = NationData[HenA][4];
+		NationGovernment[HenA] = NationData[HenA][5];
+		NationIndependence[HenA] = NationData[HenA][6];
+	}
+
+	<!--【地域データ】-->
+
+	AreaData = new Array();//地域名、領土
+	AreaData[  1] = new Array("ロンドン",1);
+	AreaData[  2] = new Array("パリ",2);
+	AreaData[  3] = new Array("マドリッド",3);
+	AreaData[  4] = new Array("ベルリン",4);
+	AreaData[  5] = new Array("ローマ",5);
+	AreaData[  6] = new Array("ウィーン",6);
+	AreaData[  7] = new Array("ストックホルム",10);
+	AreaData[  8] = new Array("ワルシャワ",7);
+	AreaData[  9] = new Array("キエフ",12);
+	AreaData[ 10] = new Array("ブダペスト",8);
+	AreaData[ 11] = new Array("ブカレスト",9);
+	AreaData[ 12] = new Array("アンカラ",13);
+	AreaData[ 13] = new Array("ミンスク",12);
+	AreaData[ 14] = new Array("リガ",12);
+	AreaData[ 15] = new Array("ヘルシンキ",11);
+	AreaData[ 16] = new Array("ペテルブルク",12);
+	AreaData[ 17] = new Array("モスクワ",12);
+	AreaData[ 18] = new Array("バグー",12);
+	AreaData[ 19] = new Array("コーカサス",12);
+	AreaData[ 20] = new Array("ヴォルコグラード",12);
+	AreaData[ 21] = new Array("ラバト",32);
+	AreaData[ 22] = new Array("アルジェ",31);
+	AreaData[ 23] = new Array("トリポリ",30);
+	AreaData[ 24] = new Array("カイロ",29);
+	AreaData[ 25] = new Array("エルサレム",14);
+	AreaData[ 26] = new Array("バグダッド",15);
+	AreaData[ 27] = new Array("リヤド",16);
+	AreaData[ 28] = new Array("テヘラン",17);
+	AreaData[ 29] = new Array("カブール",18);
+	AreaData[ 30] = new Array("イスラマバード",19);
+	AreaData[ 31] = new Array("カラチ",19);
+	AreaData[ 32] = new Array("ムンバイ",20);
+	AreaData[ 33] = new Array("デリー",20);
+	AreaData[ 34] = new Array("コルカタ",20);
+	AreaData[ 35] = new Array("チェンナイ",20);
+	AreaData[ 36] = new Array("ヤンゴン",21);
+	AreaData[ 37] = new Array("バンコク",22);
+	AreaData[ 38] = new Array("ハノイ",23);
+	AreaData[ 39] = new Array("シンガポール",33);
+	AreaData[ 40] = new Array("広州",35);
+	AreaData[ 41] = new Array("上海",35);
+	AreaData[ 42] = new Array("北京",35);
+	AreaData[ 43] = new Array("重慶",35);
+	AreaData[ 44] = new Array("蘭州",35);
+	AreaData[ 45] = new Array("瀋陽",35);
+	AreaData[ 46] = new Array("ウランバトール",34);
+	AreaData[ 47] = new Array("敦煌",35);
+	AreaData[ 48] = new Array("ウルムチ",35);
+	AreaData[ 49] = new Array("昆明",35);
+	AreaData[ 50] = new Array("チベット",35);
+	AreaData[ 51] = new Array("平壌",24);
+	AreaData[ 52] = new Array("イルクーツク",12);
+	AreaData[ 53] = new Array("ウラジオストック",12);
+	AreaData[ 54] = new Array("チタ",12);
+	AreaData[ 55] = new Array("ノボシビルスク",12);
+	AreaData[ 56] = new Array("オムスク",12);
+	AreaData[ 57] = new Array("チェリャビンスク",12);
+	AreaData[ 58] = new Array("カザニ",12);
+	AreaData[ 59] = new Array("アルハンゲリスク",12);
+	AreaData[ 60] = new Array("アスタナ",12);
+	AreaData[ 61] = new Array("タシュケント",12);
+	AreaData[ 62] = new Array("アシガバード",12);
+	AreaData[ 63] = new Array("東京",25);
+	AreaData[ 64] = new Array("マニラ",27);
+	AreaData[ 65] = new Array("ジャカルタ",26);
+	AreaData[ 66] = new Array("キャンベラ",28);
+
+	SeaAreaData = new Array();//地域名、重要度、制圧、中国影響力、米国影響力
+	SeaAreaData[1000] = new Array("未設定",0,0,0,0);
+	SeaAreaData[1001] = new Array("北海",4,0,0,0);
+	SeaAreaData[1002] = new Array("大西洋東部",6,0,0,0);
+	SeaAreaData[1003] = new Array("地中海",6,0,0,0);
+	SeaAreaData[1004] = new Array("黒海",4,0,0,0);
+	SeaAreaData[1005] = new Array("紅海",0,0,0,0);
+	SeaAreaData[1006] = new Array("インド洋西部",1,0,0,0);
+	SeaAreaData[1007] = new Array("インド洋東部",2,0,0,0);
+	SeaAreaData[1008] = new Array("南シナ海",3,0,0,0);
+	SeaAreaData[1009] = new Array("東シナ海",2,0,0,0);
+	SeaAreaData[1010] = new Array("日本海",2,0,0,0);
+	SeaAreaData[1011] = new Array("バレンツ海",0,0,0,0);
+	SeaAreaData[1012] = new Array("バルト海",5,0,0,0);
+	SeaAreaData[1013] = new Array("ペルシャ湾",1,0,0,0);
+
+	AreaName = new Array();
+	AreaSennryou = new Array();
+	for (HenA=1;HenA<=AreaSousu;HenA++) {
+		AreaName[HenA] = AreaData[HenA][0];
+		AreaSennryou[HenA] = AreaData[HenA][1];
+	}
+	
+	for (HenA=1;HenA<=AreaSousu;HenA++) {
+		document.getElementById("Area_"+AreaName[HenA]+"_png").src=NationFlag[AreaSennryou[HenA]]+".png";
+	}
+
+	//国家接続データ
+	NationSetuzokuData = new Array();
+	for (HenA=1;HenA<=KokkaSousu;HenA++) {
+		NationSetuzokuData[HenA] = new Array();
+		for (HenB=1;HenB<=KokkaSousu;HenB++) {
+			NationSetuzokuData[HenA][HenB] = 0;
+		}
+	}
+	for (HenA=1;HenA<=AreaSousu;HenA++) {
+		for (HenB=1;HenB<=AreaSousu;HenB++) {
+			if (AreaSetuzokuData[HenA][HenB]==1) {
+				if (AreaData[HenA][1]!=AreaData[HenB][1]) {
+					NationSetuzokuData[AreaData[HenA][1]][AreaData[HenB][1]] = 1;
+					NationSetuzokuData[AreaData[HenB][1]][AreaData[HenA][1]] = 1;
+				}
+			}
+		}
+	}
+	//海域接続データ
+	SeaAreaSetuzokuData = new Array();
+	for (HenA=1000;HenA<=SeaAreaSousu;HenA++) {
+		SeaAreaSetuzokuData[HenA] = new Array();
+		for (HenB=1;HenB<=KokkaSousu;HenB++) {
+			SeaAreaSetuzokuData[HenA][HenB] = 0;
+		}
+	}
+	for (HenA=1000;HenA<=SeaAreaSousu;HenA++) {
+		for (HenB=1;HenB<=AreaSousu;HenB++) {
+			if (AreaSetuzokuData[HenA][HenB]==1) {
+				SeaAreaSetuzokuData[HenA][AreaData[HenB][1]] = 1;
+			}
+		}
+	}
+
+	AreaName[16] = "レニングラード";
+
+	document.getElementById("超大国1").src="SOV.png";
+
+	SumInfCal()
+	SaisyuuScore()
+
+}
+
+function ColdWarFlagChange() {
+	if (NationInfluence[23]>=1) { NationFlag[23] = "VIE2"; }
+	if (NationInfluence[23]<=-1) { NationFlag[23] = "VIE"; }
+	if (NationInfluence[24]>=1) { NationFlag[24] = "KOR"; }
+	if (NationInfluence[24]<=-1) { NationFlag[24] = "PKR"; }
 }
 
 <!--【html】-->
@@ -913,11 +1183,11 @@ function Sen04() {
 <tr><td><input name="Text00" type="Text" size="40" value="プレイ国家を選択してください"></td></tr>
 <tr><td><input type="button" name="B01" value="習近平でプレイ" onclick="Sen01()"></td></tr>
 <tr><td><input type="button" name="B02" value="ジョー・バイデンでプレイ" onclick="Sen02()"></td></tr>
-<tr><td><input type="button" name="B03" value="選択肢なし" onclick="Sen03()"></td></tr>
-<tr><td><input type="button" name="B04" value="選択肢なし" onclick="Sen04()"></td></tr>
+<tr><td><input type="button" name="B03" value="ソビエト連邦でプレイ" onclick="Sen03()"></td></tr>
+<tr><td><input type="button" name="B04" value="アメリカ(冷戦時代)でプレイ" onclick="Sen04()"></td></tr>
 </form></table>
 
-<table border=0 style="position:absolute; top:500px;left:450px;border-collapse:collapse;"><form name="For02">
+<table border=0 style="position:absolute; top:500px;left:500px;border-collapse:collapse;"><form name="For02">
 <tr><td><img id="選択国家" src="CHC.png">　<input name="Text01" type="Text" size="10" value="中華人民共和国"></td></tr>
 <tr><td><Textarea name="Memo00" cols=50 rows=2>重要性：5　影響力：中国3　総合影響力：中国100％　独裁制　独立性：0</Textarea></td></tr>
 <tr><td><Textarea name="Memo01" cols=50 rows=2>北京は上海、蘭州、瀋陽、ウランバトールと接続しています</Textarea></td></tr>
@@ -929,7 +1199,7 @@ function Sen04() {
 
 <table border=0 style="position:absolute; top:500px;left:1100px;border-collapse:collapse;"><tr><td><input type="button" value="表示切替" onclick="HyoujiKirikae()"></td></tr></table>
 
-<table border=0 style="position:absolute; top:600px;left:1080px;border-collapse:collapse;"><tr><td><a href="https://devum765.github.io/javascript-game05explan/">〈ゲーム説明〉</a></td></tr><tr><td><a href="http://hoi1936.s205.xrea.com/index.html">〈製作者HP〉</td></tr></a></table>
+<table border=0 style="position:absolute; top:600px;left:1080px;border-collapse:collapse;"><td><a href="https://devum765.github.io/javascript-game05explan/">〈ゲーム説明〉</a></td></table>
 
 <script>
 SaisyuuScore()
