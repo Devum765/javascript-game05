@@ -635,12 +635,12 @@ function Area(AreaNum) {
 function Hyouji() {
 	if (Game!=0 && Game!=999) { document.For01.Text00.defaultValue ="第"+Game+"ターン　外交点："+DipPoint; }
 	if (Game==999) {
-		if (Scenario=0) {
+		if (Scenario==0) {
 			if (Score1>Score2) { document.For01.Text00.defaultValue ="中国が米中冷戦に勝利しました" }
 			if (Score1==Score2) { document.For01.Text00.defaultValue ="米中冷戦は引き分けとなりました" }
 			if (Score1<Score2) { document.For01.Text00.defaultValue ="アメリカが米中冷戦に勝利しました" }
 		}
-		if (Scenario=1) {
+		if (Scenario==1) {
 			if (Score1>Score2) { document.For01.Text00.defaultValue ="ソビエトが米ソ冷戦に勝利しました" }
 			if (Score1==Score2) { document.For01.Text00.defaultValue ="米ソ冷戦は引き分けとなりました" }
 			if (Score1<Score2) { document.For01.Text00.defaultValue ="アメリカが米ソ冷戦に勝利しました" }
